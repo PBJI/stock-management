@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="theme-color" content="#ff4fb3" />
+  <meta name="description" content="A lightweight stock, transactions, credit/debit and profit & loss manager." />
+  <link rel="icon" type="image/png" href="./assets/favicon.png" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>StockFlow</title>
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="topbar">
+    <div class="brand-row">
+      <a class="brand" href="#ctas" aria-label="StockFlow home">
+        <img src="./assets/logo.png" alt="StockFlow" />
+      </a>
+      <div class="breadcrumb"><span>StockFlow</span><span class="crumb-sep">/</span><strong id="breadcrumb-current">CTAs</strong></div>
+    </div>
+    <div class="top-actions">
+      <span id="mode-badge" class="mode-badge local">Local mode</span>
+      <div id="profile-area"></div>
+    </div>
+  </header>
+
+
+
+  <nav class="tabs" aria-label="Primary">
+    <button class="tab active" data-view="ctas">CTAs</button>
+    <button class="tab" data-view="inventory">Inventory</button>
+    <button class="tab" data-view="transactions">Transactions</button>
+    <button class="tab" data-view="credit">Credit / Debit</button>
+    <button class="tab" data-view="pnl">P &amp; L</button>
+  </nav>
+
+  <main id="app" class="app-shell"></main>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="./App.js"></script>
+</body>
+</html>
