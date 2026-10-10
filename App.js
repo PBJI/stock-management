@@ -11,6 +11,7 @@ import {
 } from "./modules/core.js";
 import { $, $$, fmtDate, money, toast } from "./modules/dom.js";
 import { render } from "./modules/views.js";
+import { renderPublicSaleBill } from "./modules/bills.js";
 import {
   imagePreviewModal,
   itemModal,
@@ -31,7 +32,10 @@ async function refreshApplication() {
 appState.refresh = refreshApplication;
 
 async function deleteItem(itemId) {
-  const used = appState.data.transactions.some(transaction => transaction.item_id === itemId);
+  const used = appState.data.transactions.some(transaction => transaction.item_id === itemId)
+    || (appState.data.transactionLines || []).some(line => line.item_id === itemId)
+    || (appState.data.productionMaterials || []).some(material => material.item_id === itemId)
+    || appState.data.returns.some(returnRecord => returnRecord.item_id === itemId);
   if (used) {
     toast("This item is referenced by transaction history and cannot be deleted.", "error");
     return;
@@ -136,8 +140,13 @@ function wire() {
   });
 }
 
-wire();
-initSupabase().finally(() => {
-  setModeBadge();
-  render();
-});
+const sharedBillToken = new URLSearchParams(location.search).get("bill");
+if (sharedBillToken) {
+  renderPublicSaleBill(sharedBillToken);
+} else {
+  wire();
+  initSupabase().finally(() => {
+    setModeBadge();
+    render();
+  });
+}
